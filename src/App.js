@@ -24,18 +24,19 @@ ChartJS.register(
 function App() {
   const [fundingPolicy, setFundingPolicy] = useState('ADC');
   const [roaScenario, setRoaScenario] = useState('Assumption');
+  const [discountRate, setDiscountRate] = useState(0.0755);
   const [chartData, setChartData] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const url = `https://reasonapi.world/predict_funding?funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
+    const url = `https://reasonapi.world/predict_funding?discount_rate_=${discountRate}&funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
 
     try {
       const response = await fetch(url);
       const data = await response.json();
 
-      console.log(data)
+      // console.log(data)
 
       setChartData(data);
     } catch (error) {
@@ -100,6 +101,20 @@ function App() {
           </select>
         </label>
         <br />
+        <label>
+          Discount:
+          <input
+            type="range"
+            min="0.05"
+            max="0.08"
+            step="0.01"
+            value={discountRate}
+            onChange={(event) => setDiscountRate(parseFloat(event.target.value))}
+          />
+          {discountRate.toFixed(2)}
+        </label>
+        <br />
+
         <button type="submit">Submit</button>
       </form>
       {chartData.length > 0 && (
