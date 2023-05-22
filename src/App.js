@@ -22,15 +22,18 @@ ChartJS.register(
 );
 
 function App() {
-  const [fundingPolicy, setFundingPolicy] = useState('ADC');
+  const [fundingPolicy, setFundingPolicy] = useState('StatusQuo');
   const [roaScenario, setRoaScenario] = useState('Assumption');
-  const [discountRate, setDiscountRate] = useState(0.0755);
+  const [discountRate, setDiscountRate] = useState("0.0755");
   const [chartData, setChartData] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const url = `https://reasonapi.world/predict_funding?discount_rate_=${discountRate}&funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
+    const url = `https://reasonapi.world/predict_funding?disc_rate=${discountRate}&funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
+              // https://reasonapi.world/predict_funding?discount_rate_=0.08&funding_policy_=ADC&roa_scenario_=Recurring%20Recession
+              // http://127.0.0.1/predict_funding?funding_policy_=ADC&roa_scenario_=Recurring%20Recession
+              // https://reasonapi.world/predict_funding?disc_rate=0.0755&funding_policy_=ADC&roa_scenario_=Assumption
 
     try {
       const response = await fetch(url);
@@ -70,7 +73,7 @@ function App() {
     ],
   };
 
-  const totalPlanExpensesData = {
+  const totalHireUALMVA = {
     labels: chartData.map((item) => item.Year),
     datasets: [
       {
@@ -89,7 +92,7 @@ function App() {
           Funding Policy:
           <select value={fundingPolicy} onChange={(event) => setFundingPolicy(event.target.value)}>
             <option value="ADC">ADC</option>
-            <option value="status quo">status quo</option>
+            <option value="StatusQuo">Status Quo</option>
           </select>
         </label>
         <br />
@@ -97,7 +100,7 @@ function App() {
           ROA Scenario:
           <select value={roaScenario} onChange={(event) => setRoaScenario(event.target.value)}>
             <option value="Assumption">Assumption</option>
-            <option value="Recurring Recession">Recurring Recession</option>
+            <option value="RecurringRecession">Recurring Recession</option>
           </select>
         </label>
         <br />
@@ -107,11 +110,11 @@ function App() {
             type="range"
             min="0.05"
             max="0.08"
-            step="0.01"
+            step="0.005"
             value={discountRate}
-            onChange={(event) => setDiscountRate(parseFloat(event.target.value))}
+            onChange={(event) => setDiscountRate(event.target.value)}
           />
-          {discountRate.toFixed(2)}
+          {discountRate}
         </label>
         <br />
 
@@ -121,10 +124,10 @@ function App() {
         <div className="chart-container" style={{ width: '80%', height: '400px' }}>
           <h2>Funded Ratio MVA</h2>
           <Line data={fundedRatioData} />
-          <h2>Total Hired ER Contribution MVA</h2>
+          <h2>Total Hire ER Contribution</h2>
           <Line data={totalHireERContrData} />
-          <h2>Total Plan Expenses MVA</h2>
-          <Line data={totalPlanExpensesData} />
+          <h2>Total Hire UAL-MVA</h2>
+          <Line data={totalHireUALMVA} />
         </div>
       )}
     </div>
