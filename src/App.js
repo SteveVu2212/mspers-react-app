@@ -30,7 +30,7 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const url = `https://reasonapi.world/predict_funding?funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
+    const url = `https://reasonapi.world/predict_funding?disc_rate=${discountRate}&funding_policy_=${fundingPolicy}&roa_scenario_=${roaScenario}`;
               // https://reasonapi.world/predict_funding?discount_rate_=0.08&funding_policy_=ADC&roa_scenario_=Recurring%20Recession
               // http://127.0.0.1/predict_funding?funding_policy_=ADC&roa_scenario_=Recurring%20Recession
               // https://reasonapi.world/predict_funding?disc_rate=0.0755&funding_policy_=ADC&roa_scenario_=Assumption
